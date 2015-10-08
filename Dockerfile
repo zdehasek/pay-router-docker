@@ -1,28 +1,19 @@
-FROM centos:centos6
+FROM centos:centos7
 # replace this with your application's default port
 
 # Enable EPEL for Node.js
-RUN rpm -Uvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
+RUN yum -y install epel-release.noarch
 
 # Install build tools and utils
-RUN yum -y install wget
-RUN yum -y install tar
-RUN yum -y groupinstall "Development Tools"
+RUN yum -y install tar wget git openssh-clients gcc-c++ make curl
 
 # Install Node.js and npm
-RUN mkdir /src
-RUN mkdir /src/node
-RUN cd /src/node && wget https://nodejs.org/dist/v0.12.7/node-v0.12.7.tar.gz
-RUN cd /src/node && tar -zxvf node-v0.12.7.tar.gz
+RUN mkdir -p /src/node
+RUN cd /src/node && wget https://nodejs.org/dist/v4.1.2/node-v4.1.2.tar.gz
+RUN cd /src/node && tar -zxvf node-v4.1.2.tar.gz
 
 # Build node
-RUN cd /src/node/node-v0.12.7 && ./configure
-RUN cd /src/node/node-v0.12.7 && make
-RUN cd /src/node/node-v0.12.7 && make install 
-
-# Install git and ssh
-RUN	yum install -y git
-RUN	yum install -y openssh-clients
+RUN cd /src/node/node-v4.1.2 && ./configure && make && make install
 
 # Make ssh dir
 RUN mkdir /root/.ssh/
