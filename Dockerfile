@@ -23,6 +23,9 @@ RUN touch /root/.ssh/known_hosts
 # Add githubs key
 RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
 
+RUN mv /usr/share/zoneinfo/Europe/Prague /etc/localtime
+
+
 # --------- Private part ---------
 
 # Copy over private key, and set permissions
